@@ -7,3 +7,5 @@ require('./db/mongoose');
 app.listen(port,()=>{
     console.log(`port listen`);
 })
+
+console.log("ab");
