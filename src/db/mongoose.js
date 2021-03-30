@@ -5,6 +5,9 @@ mongoose.connect(url,{useUnifiedTopology:true,useNewUrlParser:true},(error,res)=
     if(!error){
         console.log('db connected');
     }
+    else{
+        console.log(error);
+    }
 })
 
 module.exports=mongoose;

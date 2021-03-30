@@ -1,14 +1,16 @@
-const express=require('express');
-var app=express();
-require('./db/mongoose');
-var PORT=process.env.PORT || 3000;
+const express = require("express");
+const app = express();
+
+require("./db/mongoose");
+const userRouter = require("./routes/user.js");
+
+
+var PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const userRoute = require('./routes/user');
+app.use('/users', userRouter);
 
-app.use('/users',userRoute)
-
-app.listen(PORT,()=>{
-    console.log(`port listen`);
-})
+app.listen(PORT, () => {
+  console.log(`port listen`);
+});

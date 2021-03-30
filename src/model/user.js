@@ -1,23 +1,39 @@
-const mongoose = require('mongoose');
+var mongoose = require("mongoose");
+const jwt=require('jsonwebtoken')
+const bcrypt=require('bcrypt')
 
-const user = mongoose.Schema({
-    name:{
-        type : String,
-        required : true
-    },
-    email:{
-        type : String,
-        required : true,
-        unique : true
-    },
-    phone:{
-        type : Number,
-        required : true,
-        unique : true
-    },
-    password:{
-        type : String,
-        required : true
+const user = new mongoose.Schema({
+  name: {
+    require: true,
+    unique: false,
+    type: String,
+  },
+  phone: {
+    type: Number,
+    unique: false,
+    required: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  password: {
+    type: String,
+    unique: false,
+    required: true,
+  },
+});
+
+user.pre('save',async function(next){
+    try {
+        const user=this;
+        // console.log(user.password);
+        user.password=await bcrypt.hash(user.password,8)
+        next();
+    } catch (error) {
+        console.log(error);
+        
     }
 })
 
@@ -33,6 +49,6 @@ user.methods.generateToken = async function () {
 
 
 
-const User = mongoose.model('User',user);
+const User = mongoose.model('User',user)
 
 module.exports = User;
